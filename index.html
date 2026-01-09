@@ -598,7 +598,7 @@
             }
         }
 
-        // 播放確認音效
+        // 播放確認音效 (金幣聲)
         function playConfirmSound() {
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -611,17 +611,17 @@
                 oscillator.connect(gainNode);
                 gainNode.connect(ctx.destination);
 
-                // 簡單的 "叮" 聲 (頻率從 800Hz 升至 1200Hz)
+                // 金幣音效：高頻快速爬升 (1200Hz -> 3000Hz)
                 oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(800, ctx.currentTime);
-                oscillator.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.1);
+                oscillator.frequency.setValueAtTime(1200, ctx.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(3000, ctx.currentTime + 0.1);
 
-                // 音量控制 (淡出)
+                // 音量控制：清脆短促
                 gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
 
                 oscillator.start();
-                oscillator.stop(ctx.currentTime + 0.15);
+                oscillator.stop(ctx.currentTime + 0.25);
             } catch (e) {
                 console.error('AudioContext error:', e);
             }
